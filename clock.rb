@@ -6,6 +6,11 @@ class Clock < Hyperloop::Component
     every(1) { mutate.time Time.now.strftime(params.format) unless state.status=="stopped"}
   end
 
+  def start_time
+    mutate.status "running"
+    puts state.status
+  end
+
   def stop_time
     mutate.status "stopped"
     puts state.status
@@ -15,6 +20,7 @@ class Clock < Hyperloop::Component
     div(class: "container") do
       H1 {"clock"}
       H2 {state.time}
+      button.btn_success.btn_xs {'START'}.on(:click) { start_time }
       button.btn_danger.btn_xs {'STOP'}.on(:click) { stop_time }
     end
   end
