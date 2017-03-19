@@ -3,19 +3,19 @@ class Clock < Hyperloop::Component
   param format: '%a, %e %b %Y %H:%M'
   before_mount do
     mutate.time Time.now.strftime(params.format)
-    every(1) { mutate.time Time.now.strftime(params.format) unless state.status=="stopped"}
+    mutate.running true
+    every(1) { mutate.time Time.now.strftime(params.format) if state.running}
   end
 
   def toggle_time
-    mutate.status state.status=="stopped" ? "running" : "stopped"
-    puts state.status
+    mutate.running !state.running
   end
 
   render do
     div(class: "container") do
       H1 {"clock"}
       H2 {state.time}
-      if state.status=="stopped"
+      unless state.running
         button.btn_success.btn_xs {'START'}.on(:click) { toggle_time }
       else
         button.btn_danger.btn_xs {'STOP'}.on(:click) { toggle_time }
