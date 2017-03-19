@@ -15,11 +15,11 @@ class Clock < Hyperloop::Component
     div(class: "container") do
       H1 {"clock"}
       H2 {state.time}
-      unless state.running
-        button.btn_success.btn_xs {'START'}.on(:click) { toggle_time }
+      if state.running
+        button.btn_danger.btn_xs {'STOP'}
       else
-        button.btn_danger.btn_xs {'STOP'}.on(:click) { toggle_time }
-      end
+        button.btn_success.btn_xs {'START'}
+      end.on(:click) { toggle_time }
     end
   end
 end
