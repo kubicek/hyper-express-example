@@ -7,6 +7,9 @@ class Clock < Hyperloop::Component
   end
 
   render do
-    state.time
+    div(class: "container") do
+      H1 {"clock"}
+      H2 {state.time}
+    end
   end
 end
